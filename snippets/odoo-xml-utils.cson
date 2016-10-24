@@ -1,0 +1,79 @@
+'.text.xml':
+
+# Generators
+
+    'Generate a domain dictionary':
+        'prefix': 'oodomain'
+        'body': """
+            [${1:'|', }${10:('${11:field}', '${12:=}', $13)${14:, }}${20:('${21:field}', '{$22:not in}', ${23:['${24:value1}', '${25:value2}']})}$99]
+        """
+
+    'Generate an advanced domain':
+        'prefix': 'oodomainadv'
+        'body': """
+            [
+                ${1:'|', }${10:('${11:state}', '${12:=}', ${13:'posted'}),
+                }${20:('${21:type}', '${22:not in}', ${23:['${24:out_invoice}', '${25:out_refund}']}),
+                }${30:('${31:asset_category_id.type}', '${32:like}', ${33:'purchase'}),
+                }${40:('${41:id}', '${42:in}', ${43:active_ids}),
+                }${50:('${51:product_id.product_tmpl_id.id}', '${52:=}', ${53:active_id}),
+                }${60:('${61:id}create_date', '${62:&gt;=}', time.strftime('%Y-%m-%d${63: 00:00:00}'))
+                }${70:('${71:id}date_deadline','${72:&lt;}', time.strftime('%Y-%m-%d$73')),
+                }${80:('${81:id}', '${82:child_of}', ${83:active_id}),
+                }${90:('${91:category_id}', '${92:not in}', [ref('${93:base.module_category_hidden}', False), ref('${94:base.module_category_theme_hidden}', False)])
+                }${100:('${101:maintenance_type}', '${102:in}', context.get('${103:maintenance_type}', ['${104:preventive}', '${105:corrective}']))
+                }$999
+            ]
+        """
+
+    'Generate a context dictionary':
+        'prefix': 'oocontext'
+        'body': """
+            {${10:${11:'[default_]field_name': 'value', }${20:${21:'search_default_${22:field${23:_id}}': ${24:True}${25:[${26:field}_id]}, }${30:${31:'group_by': [], }${40:'group_by_no_leaf': 1}}}}$99}
+        """
+
+    'Generate an advanced context':
+        'prefix': 'oocontextadv'
+        'body': """
+            {
+                ${10:'${11:state}': '${12:posted}',
+                }${20:'measures': ['__${21:count}'],
+                }${30:'search_default_${31:current}': 1,
+                }${40:'search_default_${41:partner_id}': [${42:active_id}],
+                }${50:'search_default_${51:category_id}': ref('${52:base.module_category_localization}'),
+                }${60:'default_${61:partner_id}': ${62:active_id},
+                }${70:'default_${71:invoice_ids}': [(4, ${72:active_id}, None)],
+                }${80:'default_${81:name}': ${82:${83:name} + '${84:\:}'},
+                }${90:'default_${91:partner_to}': '${92:\${(object.${93:id} or \\'\\')|safe\\}}',
+                }${100:'default_active_domain': [['${101:id}', '${102:in}', context.get('active_ids', [])]],
+                }${110:'group_by': [${111:'date_closed:month'}],
+                }${120:'col_group_by': [${121:'create_date:month'}],
+                }${130:'group_by_no_leaf': 1,
+                }$999
+            }
+        """
+
+    'Generate a field tag':
+        'prefix': 'oofield'
+        'body': """
+            <field name="${20:fieldname}" widget="${21:statusbar|progressbar|many2onebutton|handle}"$99/>
+        """
+
+# Widgets
+
+    'Chatter: social messaging and followers':
+        'prefix': 'oochatter'
+        'body': """
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        """
+
+    'Filter: Today':
+        'prefix': 'oofiltertoday'
+        'body': """
+            <filter name="${1:today}" string="${2:Today}" domain="[
+                ('${3:date}','>=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))),
+                ('${3:date}','<=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+        """

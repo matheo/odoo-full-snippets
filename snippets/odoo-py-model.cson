@@ -1,0 +1,290 @@
+'.source.python':
+
+# Odoo objects
+
+    'Create Odoo Model':
+        'prefix': 'oomodel'
+        'body': """
+                class ${10:NewModel}(models.Model):
+                    # Private attributes
+                    _name = '${20:model.name}'
+                    ${21:_description = '${22:Model description}'
+                    }${30:_inherit = ['${31:mail.thread}'$32]
+                    }${50:_rec_name = '${51:name}'${52:  # field to use title (default: 'name')}
+                    }${60:_order = '${61:field1, ${62:field2}}'
+                    }${80:_sql_constraints = [
+                        (${81:name}, ${82:sql_definition}, ${83:message})$84
+                    ]
+                    }${90:_parent_store=True
+                    }
+                    # Default methods
+                    # Field declarations
+                    # Compute and search methods (same order as field declarations)
+                    # Constrains and onchange methods
+                    # CRUD methods
+                    # Action methods
+                    # Bussiness methods
+
+                """
+
+    'Inherit Odoo Model':
+        'prefix': 'oomodelinherit'
+        'body': """
+                class ${10:NewModel}(models.Model):
+                    # Private attributes
+                    ${20:_name = '${21:model.name}'
+                    }${21:_description = '${22:Model description}'
+                    }${30:_inherit = ['${31:parent_model.name}'$32]
+                    }${40:_inherits = [
+                        '${41:parent.model}': '${42:field_id}'$43
+                    ]
+                    }
+                    # Default methods
+                    # Field declarations
+                    # Compute and search methods (same order as field declarations)
+                    # Constrains and onchange methods
+                    # CRUD methods
+                    # Action methods
+                    # Bussiness methods
+
+                """
+
+# Fields (oof*)
+
+    'Full Field':
+        'prefix': 'ooffield'
+        'body': """
+            ${1:fieldname} = fields.${2:Type}(
+                ${10:string='${11:Field Name}',
+                }${12:help="${13:Tooltip of the field}."
+                }${20:readonly=True,
+                }${21:required=True,
+                }${23:index=True,
+                }${30:default=${31:_default_method|None},
+                }${40:states="${41:{'readonly':$42, 'required':$43, 'invisible':$44\\}}"
+                }${50:groups="${51:comma-separated list of group xml ids}"
+                }${60:copy=False
+                }${61:oldname='${62:string}'  # migration rename
+                }${70:size=${71:int}  # supported by: Char
+                }${72:translate=${73:True|callable}  # supported by: Char
+                }${80:related="${81:sequence of field names}"
+                }${82:company_dependent=True
+                }${83:sparse="the name of the field where the value of this field must be stored"}
+            )$99
+        """
+
+    'Char Field':
+        'prefix': 'oofchar'
+        'body': """
+            ${5:fieldname} = fields.Char(${9:'${11:Field Name}'${20:, readonly=True}${30:, required=True}${40:, index=True}${50:, size=${51:int}}${80:, default=${81:_default_method|None}}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'Boolean Field':
+        'prefix': 'oofboolean'
+        'body': """
+            is_${5:fieldname} = fields.Boolean(${9:'${11:Field Name}'${20:, readonly=True}${30:, required=True}${40:, index=True}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'Integer Field':
+        'prefix': 'oofinteger'
+        'body': """
+            ${5:fieldname} = fields.Integer(${9:'${11:Field Name}'${20:, readonly=True}${30:, required=True}${40:, index=True}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'Float Field':
+        'prefix': 'ooffloat'
+        'body': """
+            ${5:fieldname} = fields.Float(${9:'${11:Field Name}'${12:, digits=${13:(total, decimal)|function}}${20:, readonly=True}${30:, required=True}${40:, index=True}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'Text Field':
+        'prefix': 'ooftext'
+        'body': """
+            ${5:fieldname} = fields.Text(${9:'${11:Field Name}'${20:, readonly=True}${30:, required=True}${72:, translate=${73:True|callable}}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'HTML Field':
+        'prefix': 'oofhtml'
+        'body': """
+            ${5:fieldname} = fields.Html(${9:'${11:Field Name}'${20:, readonly=True}${30:, required=True}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'Date Field':
+        'prefix': 'oofdate'
+        'body': """
+            ${5:fieldname} = fields.Date(${9:'${11:Field Name}'${20:, readonly=True}${30:, required=True}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'DateTime Field':
+        'prefix': 'oofdatetime'
+        'body': """
+            ${5:fieldname} = fields.Datetime(${9:'${11:Field Name}'${20:, readonly=True}${30:, required=True}${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'Binary Field':
+        'prefix': 'oofbinary'
+        'body': """
+            ${5:fieldname} = fields.Binary(${9:'${11:Field Name}'${97:help="${98:Tooltip of the field}."}}$99)
+        """
+
+    'Selection Field':
+        'prefix': 'oofselection'
+        'body': """
+                ${5:fieldname} = fields.Selection(
+                    ${10:string='${11:Field Name}',
+                    }selection=[
+                        ('${20:value1}', '${21:string1}'),
+                        ${30:('${31:value2}', '${32:string2}'),}
+                    ]
+                )$99
+        """
+
+    'Selection Addition':
+        'prefix': 'oofseladd'
+        'body': """
+            ${5:fieldname} = fields.Selection(selection_add=[
+                ('${10:value}', '${11:string}')$12
+            ])
+        """
+
+    'Reference Field':
+        'prefix': 'oofreference'
+        'body': """
+                ${5:fieldname} = fields.Reference(
+                    ${10:string='${11:Field Name}',
+                    }selection=[
+                        ('${20:model_name1}', '${21:string1}'),
+                        ${30:('${31:model_name2}', '${32:string2}'),}
+                    ]
+                )$99
+        """
+
+    'Many2one Field':
+        'prefix': 'oofmany2one'
+        'body': """
+                ${5:fieldname}_id = fields.Many2one(
+                    ${10:string='${11:Field Name}',
+                    }${20:comodel_name='${21:target.model}',${22:  # not mandatory if related field or field extensions}
+                    }${30:domain="[('${31:field}', '${32:=}', $33)$34]",
+                    }${40:context={'${41:key}': ${42:'value'}\\},
+                    }${50:ondelete='${51:set null|restrict|cascade}',
+                    }${60:auto_join=True,
+                    }${70:delegate=True,  # corresponds to _inherits
+                    }${80:help='${81:Explanation of the field}.',}$99
+                )
+                """
+
+    'One2many Field':
+        'prefix': 'oofone2many'
+        'body': """
+                ${5:fieldname}_ids = fields.One2many(
+                    ${10:string='${11:Field Name}',
+                    }${20:comodel_name='${21:target.model}',${22:  # not mandatory if related field or field extensions}
+                    }${30:inverse_name='${31:inverse_name}_id',${32:  # must be a Many2one, not mandatory if related field or field extensions}
+                    }${40:domain="[('${41:field}', '${42:=}', $43)$44]",
+                    }${50:context={'${51:key}': ${52:'value'}\\},
+                    }${60:auto_join=True,
+                    }${70:limit=${71:int},${72:  # optional}
+                    }${80:help='${81:Explanation of the field}.',}$99
+                )
+                """
+
+    'Many2many Field':
+        'prefix': 'oofmany2many'
+        'body': """
+                ${5:fieldname}_ids = fields.Many2many(
+                    ${10:string='${11:Field Name}',
+                    }${20:comodel_name='${21:target.model}',${22:  # not mandatory if related field or field extensions}
+                    }${30:relation='${31:table_name}',${39:  # optional, autogenerated}
+                    }${33:column1='${34:column_local}',${39:  # optional, autogenerated}
+                    }${36:column2='${37:column_foreign}',${39:  # optional, autogenerated}
+                    }${40:domain="[('${41:field}', '${42:=}', $43)$44]",
+                    }${50:context={'${51:key}': ${52:'value'}\\},
+                    }${60:limit=${61:int},${62:  # optional}
+                    }${70:help='${71:Explanation of the field}.',}$99
+                )
+                """
+
+    'Compute Field':
+        'prefix': 'oofcompute'
+        'body': """
+                ${5:fieldname} = fields.${6:Float}(
+                    ${10:string='${11:Field Name}',
+                    }${12:help="${13:Tooltip of the field}."
+                    }${14:compute='_compute_${5:fieldname}',
+                    }${15:inverse='_inverse_${5:fieldname}',
+                    }${16:search='_search_${5:fieldname}',
+                    }${17:compute_sudo=True
+                    }${18:store=True}
+                )
+
+                ${14:@api.multi
+                ${20:@api.depends('${21:field1}'$22)}
+                def _compute_${5:fieldname}(self):
+                    for rec in self:
+                        ${23:rec.${5:fieldname} = $24}
+}
+                ${15:def _inverse_${5:fieldname}(self):
+                    for rec in self:
+                        ${30:pass}
+}
+                ${16:def _search_${5:fieldname}(self, operator, value):
+                    if operator == 'like':
+                        operator = 'ilike'
+                    return [('${5:fieldname}', operator, value)]$99
+}
+                """
+
+# Methods (oom*)
+
+    'Compute Method':
+        'prefix': 'oomcompute'
+        'body': """
+                @api.multi
+                ${10:@api.depends('${11:tracked_field}'$12)
+                }def _compute_${20:field}(self):
+                    for rec in self:
+                        ${30:rec.${20:field} = $31}
+                """
+
+    'Constrains Method':
+        'prefix': 'oomconstrains'
+        'body': """
+                @api.multi
+                @api.constrains('${10:simple_field}'$11)
+                def _check_${10:field1}(self):
+                    for rec in self:
+                        if rec.${40:field} == ${50:value}:
+                            raise ValidationError(_('$60'))$70
+                """
+
+    'Onchange Method':
+        'prefix': 'oomonchange'
+        'body': """
+                @api.onchange('${10:simple_field}'$11)
+                def _onchange_${10:simple_field}$12(self):
+                    self.${20:field} = $21
+                    ${30:
+                    # can return a warning and domains
+                    vals = {\\}
+
+                    ${40:vals['warning'] = {
+                        'title': _('${41:Something bad happened}'),
+                        'message': _('${42:It was very bad indeed}')
+                    \\}
+                    }
+                    ${50:vals['domain'] = {
+                        '${51:field}': [('${52:field}', '${53:=}', ${54:value})$55]
+                    \\}
+                    }
+                    return vals}$99
+                """
+
+    'Action Method':
+        'prefix': 'oomaction'
+        'body': """
+                @api.multi
+                def action_${10:name}(self):
+                    self.ensure_one()
+                    $99
+        """

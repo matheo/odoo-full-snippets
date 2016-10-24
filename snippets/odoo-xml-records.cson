@@ -1,0 +1,286 @@
+'.text.xml':
+
+# Actions
+
+    'Create new window action':
+        'prefix': 'ooaction'
+        'body': """
+            <record id="${10:${11:model_name}_action${12:_detail}}" model="ir.actions.act_window">
+                <field name="name">${13:Action Title}</field>
+                <field name="res_model">${14:module}.${15:model.name}</field>
+                ${16:<field name="res_id">${17:record_id}</field>
+                }${30:<field name="view_type">${31:form}</field>
+                }${32:<field name="view_mode">${33:tree,kanban,form,calendar,pivot,graph}</field>
+                }${34:<field name="view_id" ref="${35:${36:viewmodule.}view_${14:module}_${37:model_name}${38:_tree}}"/>
+                }${39:<field name="search_view_id" ref="${40:${36:viewmodule.}view_${14:module}_${37:model_name}${41:_form_search}}"/>
+                }${50:<field name="view_ids" eval="${51:[
+                    (5, 0, 0),
+                    (0, 0, {'view_mode': '${52:tree}'${53:, 'view_id': ref('${54:view_${37:model_name}_${55:tree}}')}\\}),
+                    (0, 0, {'view_mode': '${56:form}'${57:, 'view_id': ref('${58:view_${37:model_name}_${59:form}}')}\\})
+                ]}"/>
+                }${70:<field name="domain">{$71:oogendomain}</field>
+                }${60:<field name="context">{$61:oogencontext}</field>
+                }${60:<field name="groups_id" eval="[(4, ref('module.group_id'))]"/>
+                }${80:<field name="usage">menu</field>
+                }${20:<field name="target">${21:new|inline|current}</field>
+                }${90:<field name="help"${91: type="html"}>${92:
+                    ${93:<p class="oe_view_nocontent_create">
+                        Click to ${94:create some Content}.
+                    </p>}${95:<p>
+                        Details about what a user can do.
+                    </p>}
+                    ${96:<div class="oe_empty_custom_dashboard">
+                        <p>
+                            <b>Your personal dashboard is empty.</b>
+                        </p>
+                    </div>}}
+                </field>}
+            </record>
+        """
+
+    'Create new action view':
+        'prefix': 'ooactionview'
+        'body': """
+            <record id="${:model_name}_action_view_${:view_type}" model="ir.actions.act_window.view">
+                <field name="act_window_id" ref="${:model_name}_action"/>
+                <field name="view_mode">${:tree|kanban|form|calendar|pivot|graph}</field>
+                <field name="view_id" ref="${:model_name}_view_${:view_type}"/>
+                <field name="sequence" eval="0"/>
+            </record>
+        """
+
+    'Create new act_window':
+        'prefix': 'ooactwindow'
+        'body': """
+            <act_window
+                name="${10:Action Name}"
+                id="${20:${21:model}_action${22:_detail}}"
+                res_model="${30:res.model}"
+                ${31:src_model="${32:src.model}"
+                }${60:view_type="${61:form}"
+                }${62:view_mode="${63:tree,form,calendar,graph}"
+                }${64:view_id="${65:view_crm_lead2opportunity_partner_mass}"
+                }${70:domain="${71:oogendomain}"
+                }${80:context="${81:oogencontext}"
+                }${90:groups="${91:module.group_id}"
+                }${40:target="new"
+                }${50:multi="True"
+                }${51:key2="client_action_multi"}
+            />
+        """
+
+    'Create new server action':
+        'prefix': 'ooserveraction'
+        'body': """
+            <record id="${10:${11:model_name}_action${12:_detail}}" model="ir.actions.server">
+                <field name="name">${13:Server Action Title}</field>
+                <field name="model_id" ref="${14:${15:module.}model_${11:model_name}}"/>
+                ${20:<field name="context">{$21:oogencontext}</field>
+                }${30:<field name="code">
+                    ${31:if object.some_condition():
+                        action = {
+                            "type": "ir.actions.act_window",
+                            "view_mode": "form",
+                            "res_model": object._name,
+                            "res_id": object.id,
+                        \\}
+                    else:
+                        raise Warning(object.name)
+
+                    # Evaluation context:
+                    self: the model object linked to the action via `model_id`
+                    object, obj: only available if `active_model` and `active_id` are provided (via context) otherwise `None`. The actual record selected by `active_id`
+                    pool: the current database registry
+                    datetime, dateutil, time: corresponding Python modules
+                    cr: the current cursor
+                    user: the current user record
+                    context: execution context
+                    Warning: constructor for the `Warning` exception}
+
+                    ## hr_expense addon example:
+                    if context.get('active_model') == 'hr.expense' and context.get('active_ids'):
+                        action = env['hr.expense'].browse(context['active_ids']).submit_expenses()
+                </field>}
+            </record>
+        """
+
+    'Create new client action':
+        'prefix': 'ooclientaction'
+        'body': """
+            <record id="${10:${11:model_name}_action${12:_detail}}" model="ir.actions.client">
+                <field name="name">${20:Client Action Title}</field>
+                ${30:<field name="res_model">${31:module.}${32:model.name}</field>
+                }<field name="tag">${41:${11:model_name}_view${12:_detail}}</field>
+                ${50:<field name="context">{51:oocontext}</field>}
+            </record>
+        """
+
+# Menuitems
+
+    'Create a top menu item':
+        'prefix': 'oomenuroot'
+        'body': """
+            <menuitem name="${10:Menu Text}"
+                id="${20:${21:model}_menu_${22:root}}"
+                ${30:web_icon="${30:module},${32:static/description/icon.png}"
+                }${80:groups="$81"
+                }${90:sequence="$91"}
+            />$99
+        """
+
+    'Create a menu item for category':
+        'prefix': 'oomenucategory'
+        'body': """
+            <menuitem name="${10:Submenu Title}"
+                id="${20:${21:model}_menu_${22:category}}"
+                parent="${30:${31:module}.${32:parent_id}}"
+                ${80:groups="$81"
+                }${90:sequence="$91"}
+            />$99
+        """
+
+    'Create a menu item for actions':
+        'prefix': 'oomenuaction'
+        'body': """
+            <menuitem${10: name="${11:Action Title}"}
+                id="${20:${21:model}_menu_${22:action}}"
+                parent="${30:${31:module}.${32:parent_id}}"
+                action="${40:${41:model}_action$42}"
+                ${80:groups="$81"
+                }${90:sequence="$91"}
+            />$99
+        """
+
+# Security
+
+    'Create security category':
+        'prefix': 'oocategory'
+        'body': """
+            <record id="module_category_${10:cattitle_id}" model="ir.module.category">
+                <field name="name">${20:Category Title}</field>
+                ${30:<field name="description">${31:Description here.}</field>
+                }${80:<field name="visible" eval="${81:False}"/>
+                }${90:<field name="sequence">$91</field>}
+            </record>$99
+        """
+
+    'Create group':
+        'prefix': 'oogroup'
+        'body': """
+            <record id="${10:module}.group_${11:role}" model="res.groups">
+                <field name="name">${20:Role Name (Singular)}</field>
+                <field name="category_id" ref="${30:base.}module_category_${31:hidden}"/>
+                ${40:<field name="users" eval="[(4, ref('${41:base.user_root}'))]"/>
+                }${50:<field name="implied_ids" eval="[(4, ref('${51:group_*|base.group_user}'))]"/>
+                }${60:<field name="comment">${61:Comment here.}</field>
+                }${70:<field name="color">${71:Color index number}"</field>
+                }${80:<field name="is_portal" eval="${81:True}"/>
+                }${90:<field name="share" eval="${91:True}"/>}
+            </record>$99
+        """
+
+    'Create security rule':
+        'prefix': 'oorule'
+        'body': """
+            <record id="${10:model_name}_rule_${11:context}" model="ir.rule">
+                <field name="name">${20:Rule Descriptive Name}</field>
+                <field name="model_id" ref="model_${10:model_name}"/>
+                ${30<field name="domain_force">${31:oogendomain}</field>
+                }${40:<field name="groups" eval="[(4, ref('${41:group_*|base.group_user}'))]"/>
+                }${50:<field name="global" eval="True"/>
+                }${60:<field name="perm_read" eval="${61:False}"/>
+                }${70:<field name="perm_write" eval="${71:False}"/>
+                }${80:<field name="perm_create" eval="${81:False}"/>
+                }${90:<field name="perm_unlink" eval="${91:False}"/>}
+            </record>$99
+        """
+
+# Workflow
+
+    'Create workflow':
+        'prefix': 'ooworkflow'
+        'body': """
+            <record id="${10:module}_${11:model_name}_workflow" model="workflow">
+                <field name="name">${10:module}.${12:model.name}</field>
+                <field name="osv">${10:module}.${12:model.name}</field>
+                <field name="on_create">${20:True}</field>
+            </record>$99
+        """
+
+    'Add activity to workflow':
+        'prefix': 'ooactivity'
+        'body': """
+            <record id="activity_${10:identificator}" model="workflow.activity">
+                <field name="wkf_id" ref="${20:module}_${21:model_name}_workflow"/>
+                <field name="name">${22:fieldname}</field>
+                ${30:<field name="flow_start">True</field>
+                }${40:<field name="flow_stop">True</field>
+                }<field name="kind">${50:dummy|function|stopall|subflow}</field>
+                <field name="${60:action}{61:_id}">$62</field>
+            </record>
+        """
+
+    'Add transition to workflow':
+        'prefix': 'ootransition'
+        'body': """
+            <record id="transition_${10:id_act1}_${11:id_act2}" model="workflow.transition">
+                <field name="act_from" ref="activity_${10:id_act1}"/>
+                <field name="act_to" ref="activity_${11:id_act2}"/>
+                <field name="signal">signal_${20:goto}_${11:id_act2}</field>
+                ${30:<field name="sequence">$31</field>}
+            </record>
+        """
+
+# Wizard
+
+    'Create new wizard action':
+        'prefix': 'oowizardaction'
+        'body': """
+            <record id="${10:model_name}_action_wizard${11:_detail}" model="ir.actions.act_window">
+                <field name="name">${20:Wizard Action Title}</field>
+                <field name="res_model">${30:module.model.wizard}</field>
+                ${40:<field name="view_type">${41:form}</field>
+                }${42:<field name="view_mode">${43:tree,form}</field>
+                }<field name="view_id" ref="${44:${10:model_name}_view_wizard${11:_detail}}"/>
+                <field name="target">new</field>
+                <field name="context">${50:oocontext}</field>
+            </record>
+        """
+
+    'Create new wizard view':
+        'prefix': 'oowizardview'
+        'body': """
+            <record id="${10:model_name}_view_wizard${11:_detail}" model="ir.ui.view">
+                <field name="name">${20:Wizard View Title}</field>
+                <field name="model">${30:module.model.wizard}</field>
+                <field name="arch" type="xml">
+                    <form string="${40:Form Title}">
+                        ${41:Form Prompt?}
+                        ${42:<group>
+                        </group>
+                        }<footer>
+                            <button string="${50:Submit Title}" type="object" name="action_${51:method_name}" class="btn-primary" />
+                            <button string="Cancel" special="cancel" class="btn-default"/>
+                        </footer>$99
+                    </form>
+                </field>
+            </record>
+        """
+
+# Misc
+
+    'Register sequence':
+        'prefix': 'oosequence'
+        'body': """
+            <record id="sequence_${10:seq_name}" model="ir.sequence">
+                <field name="name">${11:Sequence Name}</field>
+                <field name="code">${12:module.code}</field>
+                <field name="prefix">${20:PRE}</field>
+                ${30:<field name="suffix">${31:FIX}</field>
+                }${40<field name="padding">${41:3}</field>
+                }${50:<field name="number_next">${51:1}</field>
+                }${60:<field name="number_increment">${61:1}</field>
+                }${70:<field name="company_id" eval="${71:False}"/>
+                }${80:<field name="use_date_range" eval="${81:True}"/>}
+            </record>
+        """

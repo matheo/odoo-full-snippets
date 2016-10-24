@@ -1,0 +1,21 @@
+{
+  "name": "odoo-full-snippets",
+  "main": "./lib/main",
+  "version": "0.1.0",
+  "description": "Odoo snippets for agile development.",
+  "keywords": [
+     "snippets",
+     "odoo",
+     "python",
+     "xml"
+  ],
+  "activationCommands": {
+  },
+  "repository": "https://github.com/matheo/odoo-full-snippets",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}

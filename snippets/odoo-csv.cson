@@ -1,0 +1,16 @@
+'.source.csv':
+
+    'model.access.csv':
+        'prefix': 'ooaccess'
+        'body': """
+            id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+            access_${10:model_name}_${20:[role]},${30:model.name} ${20:[role]},model_${10:model_name},${40:[group_*|base.group_user]},${50:read_search},${51:update},${52:create},${53:delete}
+            $99
+        """
+
+    'model.access.csv row':
+        'prefix': 'ooaccessrow'
+        'body': """
+            access_${10:model_name}_${20:[role]},${30:model.name} ${20:[role]},model_${10:model_name},${40:[group_*|base.group_user]},${50:read_search},${51:update},${52:create},${53:delete}
+            $99
+        """

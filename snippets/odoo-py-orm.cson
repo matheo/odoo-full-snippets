@@ -1,0 +1,109 @@
+'.source.python':
+
+# RecordSet Operations (oop*)
+
+    'RecordSet ids':
+        'prefix': 'oopids'
+        'body': """
+            ${1:self}.ids$99
+        """
+
+    'RecordSet Ensure One':
+        'prefix': 'oopensureone'
+        'body': """
+            ${1:self}.ensure_one()$99
+        """
+
+    'RecordSet Exists Check -> records':
+        'prefix': 'oopexists'
+        'body': """
+            ${1:self}.exists()$99
+        """
+
+    'RecordSet Filtered':
+        'prefix': 'oopfiltered'
+        'body': """
+            ${1:self}.filtered(${10:function or a dot-separated sequence of field names})$99
+        """
+
+    'RecordSet Sorted':
+        'prefix': 'oopsorted'
+        'body': """
+            ${1:self}.sorted(${10:key = ${11:function|fieldname|None}}${20:, reverse=True})$99
+        """
+
+    'RecordSet Mapped':
+        'prefix': 'oopmapped'
+        'body': """
+            ${1:self}.mapped(${10:key = ${11:function|field.names}})$99
+        """
+
+# RecordSet CRUD (oors*)
+
+    'RecordSet Create -> record':
+        'prefix': 'oormcreate'
+        'body': """
+            ${1:self}.create(${10:{'${11:field}': ${12:value}$13}})$99
+        """
+
+    'RecordSet Browse -> records':
+        'prefix': 'oormbrowse'
+        'body': """
+            ${1:self}.browse(${11:[${12:ids}]})$99
+        """
+
+    'RecordSet Unlink / Delete':
+        'prefix': 'oormunlink'
+        'body': """
+            ${1:self}.unlink()$99
+        """
+
+    'RecordSet Write':
+        'prefix': 'oormwrite'
+        'body': """
+            ${1:self}.write(${10:{'${11:field}': ${12:value}$13}})$99
+        """
+
+    'RecordSet Read Group':
+        'prefix': 'oormreadgroup'
+        'body': """
+            ${1:self}.read_group(
+                ${10:domain = ${11:oogendomain},
+                }${20:fields = [${21:fields}]),
+                }${30:groupby = ['${31:field$}${32:\:${33:day|week|month|quarter|year}}'$39]),
+                }${40:offset = ${41:int},
+                }${50:orderby = ['${51:fields}'$52]),${53:  # supported only for many2one fields currently}
+                }${60:offset = ${61:False}}
+            )$99
+        """
+
+    'RecordSet Search':
+        'prefix': 'oormsearch'
+        'body': """
+            ${1:self}.search(
+                [('${11:field}', '${12:=}', $13)$14],
+                ${20:offset = ${21:int},
+                }${30:limit = ${31:int},
+                }${40:order = '${41:field$}',
+                }${50:count = True}
+            )
+        """
+
+    'RecordSet Search Count -> int':
+        'prefix': 'oormcount'
+        'body': """
+            ${1:self}.search_count(
+                [('${11:field}', '${12:=}', $13)$14],
+            )
+        """
+
+    'RecordSet Name Search -> records':
+        'prefix': 'oormnamesearch'
+        'body': """
+            ${1:self}.name_search(
+                '${10:Name pattern to match}',
+                ${20:args = ${21:oogendomain},
+                }${30:operator = '${31:ilike}',
+                }${40:limit = ${31:int}}
+            )
+        """

@@ -1,0 +1,192 @@
+'.text.xml':
+
+    'Setup the main odoo xml tags':
+        'prefix': 'ooxml'
+        'body': """
+            <?xml version="1.0"?>
+            <odoo>
+                $99
+            </odoo>
+        """
+
+    'Setup the xml for not-updatable data':
+        'prefix': 'oodata'
+        'body': """
+            <?xml version="1.0"?>
+            <odoo>
+                <data${10: noupdate="1"}>
+
+                    $99
+
+                </data>
+            </odoo>
+        """
+
+# Views: form, tree, search
+
+    'Create tree view':
+        'prefix': 'ootree'
+        'body': """
+            <record id="${10:model_name}_view_tree" model="ir.ui.view">
+                <field name="name">${20:module}.${21:model.name}.tree</field>
+                <field name="model">${20:module}.${21:model.name}</field>
+                <field name="arch" type="xml">
+                    <tree string="${30:Title}"${31: decoration-info="state == 'draft'" decoration-muted="state in ('done', 'cancel')"}>
+                        <field name="${40:fieldname}"/>
+                        ${99:oogenfield}
+                    </tree>
+                </field>
+            </record>
+        """
+
+    'Inherit tree view':
+        'prefix': 'ootreeinherit'
+        'body': """
+            <!-- ${1: Reason to override the view} -->
+            <record id="${10:base_view_id}_inherit_${11:current_module}" model="ir.ui.view">
+                <field name="name">${20:module.model.name}.tree.inherit</field>
+                <field name="model">${20:module.model.name}</field>
+                <field name="inherit_id" ref="${30:base_module}.${10:base_view_id}"/>
+                <field name="arch" type="xml">
+                    <!-- Add or modify your fields or attributes -->
+                    <field name="${40:fieldname}" position="${41:(inside)|replace|after|before|attributes}">
+                        $99
+                    </field>
+                </field>
+            </record>
+        """
+
+    'Create search view':
+        'prefix': 'oosearch'
+        'body': """
+            <record id="${10:model_name}_view_search" model="ir.ui.view">
+                <field name="name">${20:module}.${21:model.name}.search</field>
+                <field name="model">${20:module}.${21:model.name}</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="${40:fieldname}"/>
+                        <filter name="${41:fieldname}" string="${42:String}" domain="${43:oogendomain}"/>
+                        ${50:<filter string="New" domain="[('state','=','draft')]"/>
+                        <filter string="Done" domain="[('state','in',('paid','invoiced','done'))]"/>
+                        <filter string="Invoiced" domain="[('state','=','invoiced')]"/>
+                        <filter string="Posted" domain="[('state','=','done')]"/>
+                        <group expand="0" string="Group By">
+                            <filter string="Customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                            <filter string="Salesman" domain="[]" context="{'group_by':'user_id'}"/>
+                            <filter string="Session" domain="[]" context="{'group_by':'session_id'}"/>
+                            <filter string="Status" domain="[]" context="{'group_by':'state'}"/>
+                            <filter string="Order Month" domain="[]" context="{'group_by':'date_order'}"/>
+                        </group>}
+                    </search>
+                </field>
+            </record>
+        """
+
+    'Inherit search view':
+        'prefix': 'oosearchinherit'
+        'body': """
+            <!-- ${1: Reason to override the view} -->
+            <record id="${10:base_view_id}_inherit_${11:current_module}" model="ir.ui.view">
+                <field name="name">${20:module.model.name}.search.inherit</field>
+                <field name="model">${20:module.model.name}</field>
+                <field name="inherit_id" ref="${30:base_module}.${10:base_view_id}"/>
+                <field name="arch" type="xml">
+                    <!-- Add or modify new fields or filters -->
+                    <${39:'field|filter'} name="${40:fieldname}" position="${41:(inside)|replace|after|before|attributes}">
+                        $99
+                    </${39:'field|filter'}>
+                </field>
+            </record>
+        """
+
+    'Create form view':
+        'prefix': 'ooform'
+        'body': """
+            <record id="${10:model_name}_view_form" model="ir.ui.view">
+                <field name="name">${20:module}.${21:model.name}.form</field>
+                <field name="model">${20:module}.${21:model.name}</field>
+                <field name="arch" type="xml">
+                    <form string="${30:Title}">
+                        <sheet string="${30:Title}">
+                            <group>
+                                <field name="${40:fieldname}"/>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+        """
+
+    'Inherit form view':
+        'prefix': 'ooforminherit'
+        'body': """
+            <!-- ${1: Reason to override the view} -->
+            <record id="${10:base_view_id}_inherit_${11:current_module}" model="ir.ui.view">
+                <field name="name">${20:module.model.name}.form.inherit</field>
+                <field name="model">${20:module.model.name}</field>
+                <field name="inherit_id" ref="${30:base_module}.${10:base_view_id}"/>
+                <field name="arch" type="xml">
+                    <!-- Add or modify your fields or attributes -->
+                    <field name="${40:fieldname}" position="${41:(inside)|replace|after|before|attributes}">
+                        $99
+                    </field>
+                </field>
+            </record>
+        """
+
+# Common structures
+
+    'Add a form header with state and buttons':
+        'prefix': 'ooformheader'
+        'body': """
+            <header>
+                <button string="${10:Title}" type="${11:(workflow)|object|action}" name="${12:(signal)|method|actionid}" states="${13:state}"${14: class="oe_highlight"}/>
+                <field name="${20:fieldname}" widget="statusbar" statusbar_visible="$22" statusbar_colors="{'KEY_IS_STATE':'VALUE_IS_COLOR'}"/>
+            </header>
+        """
+
+    'Add nested groups':
+        'prefix': 'oogrid'
+        'body': """
+            <group string="${10:Title}"${11: colspan="$12"}>
+                <!-- groups can have col, and items can use colspan -->
+                <group>
+                    <field name="${20:fieldname}"/>
+                </group>
+                <group>
+                    <field name="${21:fieldname}"/>
+                    $99
+                </group>
+            </group>
+        """
+
+    'Add notebook and a page':
+        'prefix': 'ootabs'
+        'body': """
+            <notebook>
+                <!-- pages can have dynamic attrs based on record values -->
+                <page string="${10:Tab Title}"${11:${12: accesskey="$13"} groups="${14:comma_sepparated_group_ids}"}${15:
+                      attrs="{'${16:invisible}': [('${17:field}', '${18:=}', $19)]\\}"}>
+                    ${20:<group${21: col="${22:2}"}>
+                        ${23:<separator${21: colspan="${22:2}"} string="${24:Section Title}"/>
+                        }<field name="${30:fieldname}"/>
+                        <field name="${31:fieldname}"/>
+                        ${99:<newline/>}
+                    </group>}
+                </page>
+            </notebook>
+        """
+
+    'Add page':
+        'prefix': 'oopage'
+        'body': """
+            <!-- pages can have dynamic attrs based on record values -->
+            <page string="${10:Tab Title}"${11:${12: accesskey="$13"} groups="${14:comma_sepparated_group_ids}"}>
+                ${20:<group${21: col="${22:2}"}>
+                    ${23:<separator${21: colspan="${22:2}"} string="${24:Section Title}"/>
+                    }<field name="${30:fieldname}"/>
+                    <field name="${31:fieldname}"/>
+                    ${99:<newline/>}
+                </group>}
+            </page>
+        """

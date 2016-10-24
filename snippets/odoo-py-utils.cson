@@ -1,0 +1,44 @@
+'.source.python':
+
+    'Python File Header':
+        'prefix': 'oopy'
+        'body': """
+# -*- coding: utf-8 -*-
+
+${1:# imports of python lib
+import time
+from datetime import datetime
+}# imports of odoo
+from odoo import api, exceptions, fields, models, _
+${2:from odoo.tools.safe_eval import safe_eval as eval
+}${3:# imports from odoo modules
+from odoo.addons.website.models.website import slug
+}
+
+$99      """
+
+# Date[time] static methods
+
+    'fields.Date.context_today(record, timestamp=None) -> str':
+        'prefix': 'oodatectxtoday'
+        'body': '${1:fields.Date}.context_today($2)'
+
+    'fields.Datetime.context_timestamp(record, timestamp=None) -> datetime':
+        'prefix': 'oodatetimestamp'
+        'body': '${1:fields.Datetime}.context_timestamp($2)'
+
+    'fields.Date[time].from_string(value) -> date[time]':
+        'prefix': 'oodatefromstring'
+        'body': '${1:fields.Date${2:time}}.from_string($3)'
+
+    'fields.Date[time].to_string(value) -> str':
+        'prefix': 'oodatetostring'
+        'body': '${1:fields.Date${2:time}}.to_string($3)'
+
+    'fields.Date.today(*args) -> str':
+        'prefix': 'oodatetoday'
+        'body': '${1:fields.Date}.today($2)'
+
+    'fields.Datetime.now(*args) -> str':
+        'prefix': 'oodatenow'
+        'body': '${1:fields.Datetime}.now($2)'
