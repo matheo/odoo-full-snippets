@@ -33,7 +33,7 @@
                 class ${10:NewModel}(models.Model):
                     # Private attributes
                     ${20:_name = '${21:model.name}'
-                    }${21:_description = '${22:Model description}'
+                    }${22:_description = '${23:Model description}'
                     }${30:_inherit = ['${31:parent_model.name}'$32]
                     }${40:_inherits = [
                         '${41:parent.model}': '${42:field_id}'$43

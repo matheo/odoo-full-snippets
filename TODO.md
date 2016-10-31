@@ -3,6 +3,7 @@
 
 * Review the view IDs consistency and standards
 * Let the developer type the complete ids
+* xml-utils to build fields for each type
 * Group most used options pragmatically and sort them
 * Complete oogrids with all the possibilities for groups
 * Wrap the parameter ${ #comments} and capitalize Field Name

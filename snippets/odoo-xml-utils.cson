@@ -58,6 +58,7 @@
         'body': """
             <field name="${20:fieldname}" widget="${21:statusbar|progressbar|many2onebutton|handle}"$99/>
         """
+        # many2one  options="{'no_create': True, no_quick_create, no_create_edit 'no_open': True}"
 
 # Widgets
 

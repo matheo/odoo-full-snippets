@@ -15,7 +15,7 @@ ${2:from odoo.tools.safe_eval import safe_eval as eval
 from odoo.addons.website.models.website import slug
 }
 
-$99      """
+$99"""
 
 # Date[time] static methods
 
